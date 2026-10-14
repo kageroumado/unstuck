@@ -1,3 +1,25 @@
 # Unstuck
 
-Unstuck diagnoses and repairs the macOS bug where the mouse cursor gets stuck or flickers system-wide — the resize cursor that stops appearing on window edges, or the pointer bouncing between two shapes while it holds still. It polls WindowServer's global cursor-seed counter to catch processes fighting over the cursor, names every cursor change (including the private `_windowResize*` cursors) together with the window that owns it, inventories the session's event taps to find disabled or slow filters sitting in the pointer path, and repairs the wedge in place: draining the hide counter, re-associating pointer and cursor, cycling the cursor scale so WindowServer re-registers every cursor image, and posting a synthetic mouse-move so the app under the pointer re-asserts the correct cursor — no WindowServer restart, no logout. Build with `./build.sh` (macOS 14+, ad-hoc signed by default). MIT.
+Unstuck identifies processes fighting over the Mac’s cursor and repairs stuck or flickering cursor shapes in place, without restarting WindowServer or logging out.
+
+[Source](https://github.com/kageroumado/unstuck)
+
+![Unstuck diagnosing cursor and event-tap problems](.github/unstuck-diagnostics.png)
+
+## Highlights
+
+- Identify processes competing over the cursor and inspect their event taps.
+- Repair cursor state in place while keeping the current desktop session.
+
+<details>
+<summary>Full feature list</summary>
+
+- Cursor-change and event-tap inspection.
+- Reset cursor hide state, pointer association, and image registration.
+- Repair stuck or flickering cursor shapes without restarting WindowServer or logging out.
+
+</details>
+
+## Notes
+
+- macOS 14+; build with `./build.sh`.
